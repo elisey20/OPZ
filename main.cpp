@@ -1,13 +1,14 @@
 #include <iostream>
 #include "methods.h"
+#include "structs.h"
 
 using namespace std;
 
 int main()
 {
-    char* str = new char[1024];
+    char* str = new char[MAX_STR_LENGTH];
     cout << "Введите выражение: ";
-    cin.getline(str, 1024);
+    cin.getline(str, MAX_STR_LENGTH);
 
     float result;
 
