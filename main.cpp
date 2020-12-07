@@ -2,19 +2,19 @@
 #include "methods.h"
 #include "structs.h"
 
-using namespace std;
+#define SAY std::cout <<
 
 int main()
 {
     char* str = new char[MAX_STR_LENGTH];
-    cout << "Введите выражение: ";
-    cin.getline(str, MAX_STR_LENGTH);
+    SAY "Введите выражение: ";
+    std::cin.getline(str, MAX_STR_LENGTH);
 
     float result;
 
     Calculate(str, result);
 
-    cout << "Результат выражения: " << result;
+    SAY "Результат выражения: " << result;
 
     delete[] str;
 

@@ -3,7 +3,7 @@ project(OPZ)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(SOURCE_FILES source/methods.cpp)
+set(SOURCE_FILES source/methods.cpp source/structs.cpp)
 
 add_executable(OPZ main.cpp ${SOURCE_FILES})
 
