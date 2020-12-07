@@ -138,7 +138,7 @@ void Calculate(const char* str, float& result)
         }
         else
         {
-            int b = fstack.back();
+            float b = fstack.back();
             fstack.pop_back();
 
             switch (vent[j])
