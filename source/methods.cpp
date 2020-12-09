@@ -1,5 +1,4 @@
 #include <vector>
-#include <cmath>
 #include <iostream>
 #include "structs.h"
 
@@ -63,7 +62,7 @@ void Calculate(const char* str, float& result)
     short i = 0;
     std::vector<int> vent;
     std::vector<int> stack;
-    short flagBracket = -1;
+    std::vector<short> flagBracket;
 
     // '0' = x30
     // '9' = x39
@@ -101,15 +100,15 @@ void Calculate(const char* str, float& result)
                     goToStack(vent, stack, '/');
                     break;
                 case '(':
-                    flagBracket = stack.size();
+                    flagBracket.push_back(stack.size());
                     break;
                 case ')':
-                    while (stack.size() > flagBracket)
+                    while (stack.size() > flagBracket.back())
                     {
                         vent.push_back(stack.back());
                         stack.pop_back();
                     }
-                    flagBracket = -1;
+                    flagBracket.pop_back();
                     break;
             }
             i++;
@@ -128,7 +127,7 @@ void Calculate(const char* str, float& result)
         stack.pop_back();
     }
 
-    std::vector<float> fstack;
+    std::vector<double> fstack;
 
     for (int j = 0; j < vent.size(); j++)
     {

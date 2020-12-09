@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "methods.h"
 
-const float ABS_ERROR = 0.00001;
+const float ABS_ERROR = 0.001;
 
 TEST(OPZ, t1)
 {
@@ -56,8 +56,29 @@ TEST(OPZ, t7)
 TEST(OPZ, t8)
 {
     float result;
-    Calculate("(12-2)*(9/3+4560)/(156-4861*2)-(125/5+45-81*5846/51+651*584-651+18/8431)", result);
-    EXPECT_NEAR(result, -370313.409, ABS_ERROR);
+    Calculate("(12-2)*((9/3+4560)/(156-4861*2))-((125/5)+45-81*(5846/51)+651*584-651+(18/8431))", result);
+    EXPECT_NEAR(result, 379085.031, ABS_ERROR);
+}
+
+TEST(OPZ, t9)
+{
+    float result;
+    Calculate("((12+4)/2)*2", result);
+    EXPECT_NEAR(result, 16, ABS_ERROR);
+}
+
+TEST(OPZ, t10)
+{
+    float result;
+    Calculate("(12+4/2)*2", result);
+    EXPECT_NEAR(result, 28, ABS_ERROR);
+}
+
+TEST(OPZ, t11)
+{
+    float result;
+    Calculate("12*3/15+4/8", result);
+    EXPECT_NEAR(result, 2.9, ABS_ERROR);
 }
 
 int main(int argc, char **argv)
