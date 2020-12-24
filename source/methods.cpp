@@ -2,7 +2,10 @@
 #include <iostream>
 #include "structs.h"
 
-
+const char MULTIPLICATION = -1;
+const char PLUS = -2;
+const char MINUS = -3;
+const char DIVISION = -4;
 
 int getNumber(const char* str, short& i)
 {
@@ -25,20 +28,20 @@ void goToStack(std::vector<int>& vent, std::vector<int>& stack, char oper)
     switch (oper)
     {
         case '/':
-            stack.push_back(-4);
+            stack.push_back(DIVISION);
             break;
 
         case '*':
-            while (!stack.empty() && stack.back() == -4)
+            while (!stack.empty() && stack.back() == DIVISION)
             {
                 vent.push_back(stack.back());
                 stack.pop_back();
             }
-            stack.push_back(-1);
+            stack.push_back(MULTIPLICATION);
             break;
 
         default:
-            while (!stack.empty() && (stack.back() == -4 || stack.back() == -1))
+            while (!stack.empty() && (stack.back() == DIVISION || stack.back() == MULTIPLICATION))
             {
                 vent.push_back(stack.back());
                 stack.pop_back();
@@ -46,19 +49,17 @@ void goToStack(std::vector<int>& vent, std::vector<int>& stack, char oper)
             switch (oper)
             {
                 case '+':
-                    stack.push_back(-2);
+                    stack.push_back(PLUS);
                     break;
                 case '-':
-                    stack.push_back(-3);
+                    stack.push_back(MINUS);
                     break;
             }
-            break;
     }
 }
 
-void Calculate(const char* str, float& result)
+float Calculate(const char* str)
 {
-    result = 0;
     short i = 0;
     std::vector<int> vent;
     std::vector<int> stack;
@@ -66,10 +67,10 @@ void Calculate(const char* str, float& result)
 
     // '0' = x30
     // '9' = x39
-    // -1 = x2a = *
-    // -2 = x2b = +
-    // -3 = x2d = -
-    // -4 = x2f = /
+    // -1 = x2a = * = MULTIPLICATION
+    // -2 = x2b = + = PLUS
+    // -3 = x2d = - = MINUS
+    // -4 = x2f = / = DIVISION
 
     // Приоритет
     // (+ = -) < * < /
@@ -78,47 +79,38 @@ void Calculate(const char* str, float& result)
     // 1 / 2 - 3
     // vent: 1 2 / 3 -
     // stack:
-    try
+    while (str[i] != '\0' && i <= MAX_STR_LENGTH - 1)
     {
-        while (str[i] != '\0' && i <= MAX_STR_LENGTH - 1)
+        switch (str[i])
         {
-            switch (str[i])
-            {
-                case '0'...'9':
-                    vent.push_back(getNumber(str, i));
-                    break;
-                case '+':
-                    goToStack(vent, stack, '+');
-                    break;
-                case '-':
-                    goToStack(vent, stack, '-');
-                    break;
-                case '*':
-                    goToStack(vent, stack, '*');
-                    break;
-                case '/':
-                    goToStack(vent, stack, '/');
-                    break;
-                case '(':
-                    flagBracket.push_back(stack.size());
-                    break;
-                case ')':
-                    while (stack.size() > flagBracket.back())
-                    {
-                        vent.push_back(stack.back());
-                        stack.pop_back();
-                    }
-                    flagBracket.pop_back();
-                    break;
-            }
-            i++;
+            case '0'...'9':
+                vent.push_back(getNumber(str, i));
+                break;
+            case '+':
+                goToStack(vent, stack, '+');
+                break;
+            case '-':
+                goToStack(vent, stack, '-');
+                break;
+            case '*':
+                goToStack(vent, stack, '*');
+                break;
+            case '/':
+                goToStack(vent, stack, '/');
+                break;
+            case '(':
+                flagBracket.push_back(stack.size());
+                break;
+            case ')':
+                while (stack.size() > flagBracket.back())
+                {
+                    vent.push_back(stack.back());
+                    stack.pop_back();
+                }
+                flagBracket.pop_back();
+                break;
         }
-    }
-    catch (std::logic_error& exception)
-    {
-        std::cout << exception.what() << '\n';
-        result = 0;
-        return;
+        i++;
     }
 
     while (!stack.empty())
@@ -142,22 +134,22 @@ void Calculate(const char* str, float& result)
 
             switch (vent[j])
             {
-                case -1:
+                case MULTIPLICATION:
                     fstack.back() = fstack.back() * b;
                     break;
-                case -2:
+                case PLUS:
                     fstack.back() = fstack.back() + b;
                     break;
-                case -3:
+                case MINUS:
                     fstack.back() = fstack.back() - b;
                     break;
-                case -4:
+                case DIVISION:
                     fstack.back() = fstack.back() / b;
                     break;
             }
         }
     }
 
-    result = fstack.back();
+    return fstack.back();
 
 }

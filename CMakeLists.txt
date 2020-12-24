@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.17)
+# cmake_minimum_required(VERSION 3.17)
 project(OPZ)
 
-set(CMAKE_CXX_STANDARD 20)
+# set(CMAKE_CXX_STANDARD 20)
 
 set(SOURCE_FILES source/methods.cpp source/structs.cpp)
 

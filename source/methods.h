@@ -1,3 +1,3 @@
 #pragma once
 
-void Calculate(const char*, float& result);
+float Calculate(const char*);
